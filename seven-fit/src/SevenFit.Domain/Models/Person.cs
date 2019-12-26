@@ -13,7 +13,7 @@ namespace SevenFit.Domain.Models
             SetEmail(email);
         }
 
-        private void SetEmail(string email)
+        public void SetEmail(string email)
         {
             if (email.Contains("@"))
                 Email = email;

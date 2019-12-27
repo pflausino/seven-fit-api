@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using SevenFit.Domain.Enums;
 
 namespace SevenFit.Domain.Models
 {
@@ -32,10 +34,7 @@ namespace SevenFit.Domain.Models
 
         public void SetPassword(string password)
         {
-            var input = password;
-            ErrorMessage = string.Empty;
-
-            if (string.IsNullOrWhiteSpace(input))
+            if (string.IsNullOrWhiteSpace(password))
             {
                 throw new Exception("Password should not be empty");
             }
@@ -46,26 +45,26 @@ namespace SevenFit.Domain.Models
             var hasLowerChar = new Regex(@"[a-z]+");
             var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
 
-            if (!hasLowerChar.IsMatch(input))
+            if (!hasLowerChar.IsMatch(password))
             {
-                ErrorMessage = "Password should contain At least one lower case letter";
+                throw new ArgumentException("Password should contain At least one lower case letter");
             }
-            else if (!hasUpperChar.IsMatch(input))
+            else if (!hasUpperChar.IsMatch(password))
             {
-                ErrorMessage = "Password should contain At least one upper case letter";
+                throw new ArgumentException("Password should contain At least one upper case letter");
             }
-            else if (!hasMiniMaxChars.IsMatch(input))
+            else if (!hasMiniMaxChars.IsMatch(password))
             {
-                ErrorMessage = "Password should not be less than or greater than 8 characters";
+                throw new ArgumentException("Password should not be less than or greater than 8 characters");
             }
-            else if (!hasNumber.IsMatch(input))
+            else if (!hasNumber.IsMatch(password))
             {
-                ErrorMessage = "Password should contain At least one numeric value";
+                throw new ArgumentException("Password should contain At least one numeric value");
             }
 
-            else if (!hasSymbols.IsMatch(input))
+            else if (!hasSymbols.IsMatch(password))
             {
-                ErrorMessage = "Password should contain At least one special case characters";
+                throw new ArgumentException("Password should contain At least one special case characters");
             }
             else
             {

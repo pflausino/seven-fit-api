@@ -16,12 +16,32 @@ namespace SevenFit.Domain.Models
         public AccessType AccessType { get; private set; }
         public DateTime BirthDate { get; private set; }
 
-
-        public Person(string email, string password, string name)
+        public Person(string email, string password, string name, Gender gender, AccessType accessType, DateTime birthDate)
         {
             SetEmail(email);
             SetPassword(password);
             SetName(name);
+            SetBirthDate(birthDate);
+            Gender = gender;
+            AccessType = accessType;
+        }
+        public Int32 SetAge(DateTime birthDate)
+        {
+            var today = DateTime.Today;
+
+            var todayAge = (today.Year * 100 + today.Month) * 100 + today.Day;
+            var birthAge = (birthDate.Year * 100 + birthDate.Month) * 100 + birthDate.Day;
+
+            return (todayAge - birthAge) / 10000;
+        }
+
+        public void SetBirthDate(DateTime birthDate)
+        {
+            var age = SetAge(birthDate);
+            if (age >= 18)
+                BirthDate = birthDate;
+            else
+                throw new ArgumentException(nameof(birthDate));
         }
 
         public void SetEmail(string email)
@@ -41,7 +61,7 @@ namespace SevenFit.Domain.Models
 
             var hasNumber = new Regex(@"[0-9]+");
             var hasUpperChar = new Regex(@"[A-Z]+");
-            var hasMiniMaxChars = new Regex(@".{8,8}");
+            var hasMinMaxChars = new Regex(@".{8,15}");
             var hasLowerChar = new Regex(@"[a-z]+");
             var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
 
@@ -53,9 +73,9 @@ namespace SevenFit.Domain.Models
             {
                 throw new ArgumentException("Password should contain At least one upper case letter");
             }
-            else if (!hasMiniMaxChars.IsMatch(password))
+            else if (!hasMinMaxChars.IsMatch(password))
             {
-                throw new ArgumentException("Password should not be less than or greater than 8 characters");
+                throw new ArgumentException("Password should not be less than 8 or greater than 15 characters");
             }
             else if (!hasNumber.IsMatch(password))
             {
@@ -70,8 +90,7 @@ namespace SevenFit.Domain.Models
             {
                 Password = password;
             }
-        }
-            
+        }            
 
         public void SetName(string name)
         {

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using SevenFit.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SevenFit.Domain.Models
 {
@@ -16,7 +18,7 @@ namespace SevenFit.Domain.Models
         public AccessType AccessType { get; private set; }
         public DateTime BirthDate { get; private set; }
 
-        public Person(string email, string password, string name, Gender gender, AccessType accessType, DateTime birthDate)
+        public Person(Guid id, string email, string password, string name, Gender gender, AccessType accessType, DateTime birthDate): base(id)
         {
             SetEmail(email);
             SetPassword(password);
@@ -41,12 +43,12 @@ namespace SevenFit.Domain.Models
             if (age >= 18)
                 BirthDate = birthDate;
             else
-                throw new ArgumentException(nameof(birthDate));
+                throw new ArgumentException("It is not allowed to under 18");
         }
 
         public void SetEmail(string email)
         {
-            if (email.Contains("@"))
+            if (new EmailAddressAttribute().IsValid(email))
                 Email = email;
             else
                 throw new ArgumentException(nameof(email));
@@ -90,7 +92,7 @@ namespace SevenFit.Domain.Models
             {
                 Password = password;
             }
-        }            
+        }
 
         public void SetName(string name)
         {

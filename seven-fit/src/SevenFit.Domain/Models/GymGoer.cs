@@ -8,18 +8,17 @@ namespace SevenFit.Domain.Models
 {
     public abstract class GymGoer : Person
     {
-        public string Objective { get; private set; }
-        public HistoryWeight HistoryWeight { get; private set; }
+        public string Goal { get; private set; }
+        public List<HistoryWeight> HistoryWeight { get; private set; }
         public Double Height { get; private set; }
         public Gym Gym { get; private set; }
 
-        public GymGoer(Guid id, string email, string password, string name, Gender gender, AccessType accessType, DateTime birthDate, string objective, Double weight, Double height, Gym gym):
+        public GymGoer(Guid id, string email, string password, string name, Gender gender, AccessType accessType, DateTime birthDate, string goal, Double height, Gym gym):
             base(id, email, password, name, gender, accessType, birthDate)
         {
-            Objective = objective;
+            Goal = goal;
             Gym = gym;
-            SetHeight(height);
-           // HistoryWeight = new HistoryWeight(Double weight, Guid id);
+            SetHeight(height);             
             
         }
         public void SetHeight(Double height)
@@ -31,6 +30,11 @@ namespace SevenFit.Domain.Models
                 Height = height;
             else
                 throw new ArgumentException(nameof(height));
+        }
+
+        public void AddHistoryWeight(Double weight)
+        {
+            HistoryWeight.Add(new HistoryWeight(weight, Id));
         }
 
      

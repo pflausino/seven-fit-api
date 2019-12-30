@@ -43,9 +43,7 @@ namespace SevenFit.Domain.Models
                 BirthDate = birthDate;
             else
                 throw new ArgumentException("It is not allowed to under 18");
-        }
-
-   
+        }   
 
         public void SetPassword(string password)
         {
@@ -94,7 +92,6 @@ namespace SevenFit.Domain.Models
             else
                 throw new ArgumentException(nameof(name));
         }
-
 
     }
 }

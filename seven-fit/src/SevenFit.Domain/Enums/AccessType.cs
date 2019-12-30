@@ -3,7 +3,7 @@ namespace SevenFit.Domain.Enums
 {
     public enum AccessType
     {
-        Personal,
-        GymGoer
+        Personal = 10,
+        GymGoer = 20
     }
 }

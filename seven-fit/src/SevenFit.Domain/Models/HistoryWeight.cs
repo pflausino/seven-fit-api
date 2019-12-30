@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace SevenFit.Domain.Models
 {
-    public abstract class HistoryWeight
+    public class HistoryWeight
     {
         public Double Weight { get; set; }
         public DateTime Date { get; set; }
@@ -15,7 +15,7 @@ namespace SevenFit.Domain.Models
         {
             Date = DateTime.Today;
             SetWeight(weight);
-            SetGymGoerId(gymGoerId);
+            GymGoerId = gymGoerId;
         }
         public void SetWeight(Double weight)
         {
@@ -27,14 +27,7 @@ namespace SevenFit.Domain.Models
             else
                 throw new ArgumentException(nameof(weight));
         }
-        public void SetGymGoerId(Guid gymGoerId)
-        {
-            Regex validGuid = new Regex(@"^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$");
-            if (validGuid.IsMatch(gymGoerId.ToString()))
-                GymGoerId = gymGoerId;
-            else
-                throw new ArgumentException(nameof(gymGoerId));
-        }
+  
 
 
     }
